@@ -48,7 +48,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
     public void onBindViewHolder(final MyViewHolder holder,
                                  final int position) {
         String imageUrl = list[position] ;
-        ImageLoad.get( context ).load( context , imageUrl , holder.imageView );
+        ImageLoad.get( context ).load( imageUrl , holder.imageView );
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

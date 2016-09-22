@@ -68,8 +68,7 @@ public class ImageLoad {
     }
 
 
-    public void load( Context context , String urlString , ImageView imageView ){
-        if ( context == null ) return;
+    public void load( String urlString , ImageView imageView ){
         if ( urlString == null ) return;
         if ( imageView == null ) return;
         Log.d("image" , "url--  " + urlString ) ;
@@ -87,7 +86,7 @@ public class ImageLoad {
         }else {
             //从磁盘获取图片
             Log.d( "image" , "从内存中获取的bitmap 为空" ) ;
-            getBitmapFromDisk( context , urlString , imageView );
+            getBitmapFromDisk( urlString , imageView );
         }
     }
 
@@ -98,7 +97,7 @@ public class ImageLoad {
     }
 
 
-    private void getBitmapFromDisk(final Context context , final String urlString , final ImageView imageView ){
+    private void getBitmapFromDisk( final String urlString , final ImageView imageView ){
         new MyTask<>().setTaskListener(new MyTask.TaskListener() {
             @Override
             public void start() {
@@ -130,14 +129,14 @@ public class ImageLoad {
                 }else {
                     //从网络中获取
                     Log.d( "image" , "从磁盘获取的bitmap 为空" ) ;
-                    getBitmapFromNet(  context , urlString , imageView );
+                    getBitmapFromNet(  urlString , imageView );
                 }
 
             }
         }).executeOnExecutor( mexecutors , "") ;
     }
 
-    private void getBitmapFromNet(final Context context , final String urlString , final ImageView imageView ){
+    private void getBitmapFromNet( final String urlString , final ImageView imageView ){
         new MyTask<>().setTaskListener(new MyTask.TaskListener<String,Integer,Bitmap>() {
             @Override
             public void start() {
@@ -154,7 +153,7 @@ public class ImageLoad {
                 Bitmap bitmap = downLoadBitmapFromNet( netUrl );
 
                 //把缓存写入磁盘
-                setBitmapToDiskCache( context , urlString );
+                setBitmapToDiskCache( urlString );
 
                 return bitmap ;
             }
@@ -237,7 +236,7 @@ public class ImageLoad {
         return  null ;
     }
 
-    private void setBitmapToDiskCache(final Context context , final String urlString ){
+    private void setBitmapToDiskCache( final String urlString ){
         new MyTask<>().setTaskListener(new MyTask.TaskListener() {
             @Override
             public void start() {

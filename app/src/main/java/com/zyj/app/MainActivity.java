@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         imageView = (ImageView) findViewById( R.id.image);
-        ImageLoad.get( MainActivity.this ).load( MainActivity.this , Contans.imageUrls[0], imageView );
+        ImageLoad.get( MainActivity.this ).load(  Contans.imageUrls[0], imageView );
 
         mrecyclerView = (RecyclerView)findViewById(R.id.recycleview);
         mrecyclerView.setLayoutManager(new GridLayoutManager( MainActivity.this , 2)) ;   //gridView网格布局
