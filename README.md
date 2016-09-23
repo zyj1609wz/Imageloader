@@ -53,6 +53,7 @@ ImageLoad.get( SettingActivity.this).clearDiskCache();
 
 ## `更新日志`
  `2016/9/23`
+ 
  1、修改磁盘缓存逻辑
  
  2、增加获取磁盘缓存接口
