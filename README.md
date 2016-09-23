@@ -47,7 +47,6 @@ long size = ImageLoad.get( Context context ).getCacheSize() ;
 ### 3、如何清除缓存？
 ```
 ImageLoad.get( SettingActivity.this).clearDiskCache();
-
 ```
 注意这个方法是耗时操作，需要在异步中操作。
 
@@ -55,7 +54,9 @@ ImageLoad.get( SettingActivity.this).clearDiskCache();
 ## `更新日志`
  `2016/9/23`
  1、修改磁盘缓存逻辑
+ 
  2、增加获取磁盘缓存接口
+ 
  3、增加清除磁盘缓存接口 
 
  `2016/9/22`
