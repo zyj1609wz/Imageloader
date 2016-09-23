@@ -56,7 +56,7 @@ ImageLoad.get( SettingActivity.this).clearDiskCache();
  
  1、修改磁盘缓存逻辑
  
- 2、增加获取磁盘缓存接口
+ 2、增加获取磁盘缓存大小接口
  
  3、增加清除磁盘缓存接口 
 
