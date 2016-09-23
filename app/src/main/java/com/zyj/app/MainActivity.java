@@ -1,9 +1,11 @@
 package com.zyj.app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.zyj.app.imageload.ImageLoad;
@@ -19,6 +21,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        findViewById( R.id.setting ).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity( new Intent( MainActivity.this , SettingActivity.class ));
+            }
+        }); ;
 
         imageView = (ImageView) findViewById( R.id.image);
         ImageLoad.get( MainActivity.this ).load(  Contans.imageUrls[0], imageView );

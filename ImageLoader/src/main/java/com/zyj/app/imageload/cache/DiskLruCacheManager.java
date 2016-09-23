@@ -46,7 +46,7 @@ public class DiskLruCacheManager {
 
             DiskLruCache.Snapshot snapShot = diskLruCacheS.get(key);
             if (snapShot != null) {
-                inputStream = snapShot.getInputStream(0);
+                inputStream = snapShot.getInputStream(0) ;
                 Bitmap bitmap = BitmapFactory.decodeStream( inputStream );
                 return bitmap ;
             }

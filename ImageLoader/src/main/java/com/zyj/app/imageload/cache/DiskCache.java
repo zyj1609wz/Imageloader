@@ -19,4 +19,8 @@ public interface DiskCache {
 
     DiskLruCache getDiskLruCache() ;
 
+    void clearCache();
+
+    long getTotalCacheSize() ;
+
 }

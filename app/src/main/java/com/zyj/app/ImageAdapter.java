@@ -9,13 +9,14 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.zyj.app.imageload.ImageLoad;
+import com.zyj.app.util.DensityUtils;
 
 
 /**
  * Created by Administrator on 2016/9/10.
  */
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder> {
-    private Context context;
+    private Context mcontext;
     private String[] list;
     private RelativeLayout.LayoutParams params;
 
@@ -30,7 +31,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
     }
 
     public ImageAdapter(Context context, String[] list ) {
-        this.context = context;
+        this.mcontext = context;
         if ( list != null ){
             this.list = list ;
         }
@@ -39,7 +40,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        MyViewHolder holder = new MyViewHolder(LayoutInflater.from(context).inflate(
+        MyViewHolder holder = new MyViewHolder(LayoutInflater.from( mcontext ).inflate(
                 R.layout.listview_item, null));
         return holder;
     }
@@ -48,7 +49,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
     public void onBindViewHolder(final MyViewHolder holder,
                                  final int position) {
         String imageUrl = list[position] ;
-        ImageLoad.get( context ).load( imageUrl , holder.imageView );
+        ImageLoad.get( mcontext ).load( imageUrl , holder.imageView );
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,6 +80,10 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
         public MyViewHolder(View view) {
             super(view);
             imageView = (ImageView) view.findViewById(R.id.image);
+            params = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
+            params.width = DensityUtils.getScreenWidth( mcontext ) /2  ;
+            params.height = params.width ;
+            imageView.setLayoutParams( params );
         }
     }
 

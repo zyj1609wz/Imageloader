@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import com.zyj.app.imageload.bean.ImageHolder;
 import com.zyj.app.imageload.cache.DiskCacheFactory;
 import com.zyj.app.imageload.cache.DiskLruCacheManager;
-import com.zyj.app.imageload.cache.ExternalSDCardCacheDiskCacheFactory;
+import com.zyj.app.imageload.cache.ExternalCacheDiskCacheFactory;
 import com.zyj.app.imageload.util.MD5;
 import com.zyj.app.imageload.util.MyTask;
 
@@ -51,8 +51,7 @@ public class ImageLoad {
         mexecutors  = Executors.newFixedThreadPool( mThreadCount ) ;
 
         if ( diskCacheFactory == null ){
-           // diskCacheFactory = new ExternalCacheDiskCacheFactory( context ) ;
-            diskCacheFactory = new ExternalSDCardCacheDiskCacheFactory( context ) ;
+            diskCacheFactory = new ExternalCacheDiskCacheFactory( context ) ;
         }
     }
 
@@ -212,8 +211,8 @@ public class ImageLoad {
 
             BitmapFactory.Options options = new BitmapFactory.Options() ;
             options.inJustDecodeBounds = true ;
-            options.inSampleSize = 4 ;
             BitmapFactory.decodeStream( inputStream , null , options ) ;
+            options.inSampleSize = 4 ;
             options.inJustDecodeBounds = false ;
             inputStream.reset();
             bitmap = BitmapFactory.decodeStream( inputStream , null , options ) ;
@@ -261,25 +260,20 @@ public class ImageLoad {
         }).executeOnExecutor( mexecutors  , "") ;
     }
 
-    public Bitmap compressBitmap(){
-        BitmapFactory.Options options = new BitmapFactory.Options() ;
-        //如果我们把它设为true，那么BitmapFactory.decodeFile(String path, Options opt)并不会真的返回一个Bitmap给你，
-        // 它仅仅会把它的宽，高取回来给你，这样就不会占用太多的内存，也就不会那么频繁的发生OOM了。
-        options.inJustDecodeBounds = true ;
-        options.inPreferredConfig = Bitmap.Config.RGB_565;
-        options.inSampleSize = 4;   //设置图片的宽高都为原来的1/4 , 那么整个bitmap为原来 1/16
-        return null ;
+    /**
+     * get diskCache size
+     * @return
+     */
+   public long getCacheSize(){
+        return diskCacheFactory.getTotalCacheSize() ;
     }
 
-    public static BitmapFactory.Options getCompressOptions(){
-        BitmapFactory.Options options = new BitmapFactory.Options() ;
-        //如果我们把它设为true，那么BitmapFactory.decodeFile(String path, Options opt)并不会真的返回一个Bitmap给你，
-        // 它仅仅会把它的宽，高取回来给你，这样就不会占用太多的内存，也就不会那么频繁的发生OOM了。
-        options.inJustDecodeBounds = true ;
-        //   options.inPreferredConfig = Bitmap.Config.RGB_565;
-        options.inSampleSize = 2;   //设置图片的宽高都为原来的1/4 , 那么整个bitmap为原来 1/16
-
-        return options ;
+    /**
+     * clear diskCache
+     * must be On Backgr
+     */
+   public void clearDiskCache(){
+        diskCacheFactory.clearCache();
     }
 
 }
