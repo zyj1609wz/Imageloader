@@ -7,7 +7,7 @@ Android Studio集成
 compile 'com.zyj.app:imageloader:1.1.0'
 
 ```
-
+获取最新版本号 [Jcenter](http://jcenter.bintray.com/com/zyj/app/imageloader/)
 ## `使用方法`
 
 ### 1、如何加载图片
