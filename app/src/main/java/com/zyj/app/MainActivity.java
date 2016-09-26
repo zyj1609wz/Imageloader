@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.zyj.app.imageload.ImageLoad;
+import com.bumptech.glide.Glide;
 import com.zyj.app.util.Contans;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,7 +30,8 @@ public class MainActivity extends AppCompatActivity {
         }); ;
 
         imageView = (ImageView) findViewById( R.id.image);
-        ImageLoad.get( MainActivity.this ).load(  Contans.imageUrls[0], imageView );
+        Glide.get( MainActivity.this).clearMemory();
+       // ImageLoad.get( MainActivity.this ).load(  Contans.imageUrls[0], imageView );
 
         mrecyclerView = (RecyclerView)findViewById(R.id.recycleview);
         mrecyclerView.setLayoutManager(new GridLayoutManager( MainActivity.this , 2)) ;   //gridView网格布局

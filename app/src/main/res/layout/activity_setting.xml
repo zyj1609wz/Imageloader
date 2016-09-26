@@ -29,12 +29,21 @@
         android:textSize="18sp" />
 
     <Button
-        android:text="清除缓存"
+        android:id="@+id/button2"
+        android:text="清除缓存(磁盘缓存)"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView1"
         android:layout_marginTop="10dp"
-        android:id="@+id/button2"
+        android:elevation="7dp" />
+
+    <Button
+        android:id="@+id/clearMoneryCache"
+        android:layout_below="@+id/button2"
+        android:text="清除缓存(内存缓存)"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:elevation="7dp" />
 
 

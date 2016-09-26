@@ -2,7 +2,6 @@ package com.zyj.app;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,14 +21,14 @@ public class SettingActivity extends AppCompatActivity {
         findViewById( R.id.button1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              long size = ImageLoad.get( SettingActivity.this).getCacheSize() ;
-                Log.d( "ccccccccc" , "" +  size ) ;
+                long diskCacheSize = ImageLoad.get( SettingActivity.this).getDiskCacheSize() ;
+                long memorycacheSize = ImageLoad.get( SettingActivity.this).getMemoryCacheSize() ;
 
-              textView.setText( "缓存为： " + sizeToChange( size ) );
+                textView.setText( "磁盘缓存为： " + sizeToChange( diskCacheSize ) + "  内存缓存为：" + sizeToChange( memorycacheSize )  );
             }
         }) ;
 
-        //清除缓存
+        //清除磁盘缓存
         findViewById( R.id.button2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,6 +44,17 @@ public class SettingActivity extends AppCompatActivity {
                         });
                     }
                 }).start();
+            }
+        }) ;
+
+        /**
+         * 清除内存缓存
+         */
+        findViewById( R.id.clearMoneryCache).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImageLoad.get( SettingActivity.this).clearMemoryCache();
+                Toast.makeText(SettingActivity.this, "清除成功", Toast.LENGTH_SHORT).show();
             }
         }) ;
 

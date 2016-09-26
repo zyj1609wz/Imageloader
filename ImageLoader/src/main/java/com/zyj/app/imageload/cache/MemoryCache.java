@@ -9,5 +9,8 @@ import android.graphics.Bitmap;
 public interface MemoryCache {
 
     Bitmap getBitmapFromCache(String key) ;
-    void setBitmapToCache(String key, Bitmap bitmap) ;
+    void setBitmapToCache( String key , Bitmap bitmap) ;
+
+    int getMemoryCacheSize();
+    void clearMemoryCache() ;
 }

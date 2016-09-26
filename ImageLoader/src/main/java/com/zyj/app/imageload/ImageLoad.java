@@ -3,16 +3,17 @@ package com.zyj.app.imageload;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.text.TextUtils;
 import android.util.Log;
-import android.util.LruCache;
 import android.widget.ImageView;
 
+import com.zyj.app.imageload.Key.Key;
+import com.zyj.app.imageload.Key.MD5Key;
 import com.zyj.app.imageload.bean.ImageHolder;
 import com.zyj.app.imageload.cache.DiskCacheFactory;
 import com.zyj.app.imageload.cache.DiskLruCacheManager;
 import com.zyj.app.imageload.cache.ExternalCacheDiskCacheFactory;
-import com.zyj.app.imageload.util.MD5;
+import com.zyj.app.imageload.cache.MemoryCache;
+import com.zyj.app.imageload.cache.MemoryCacheFactory;
 import com.zyj.app.imageload.util.MyTask;
 
 import java.io.BufferedInputStream;
@@ -30,28 +31,25 @@ import java.util.concurrent.Executors;
 public class ImageLoad {
 
     private static volatile ImageLoad instance ;
-    private LruCache<String, Bitmap> mlruCache = null  ;
     private ExecutorService mexecutors = null ;
     private int mThreadCount = 10 ;
-    private DiskCacheFactory diskCacheFactory ;
+    private DiskCacheFactory mdiskCacheFactory ;
+    private MemoryCache mmemoryCache ;
+    private Key mkey ;
     private ImageLoad(Context context ){
-
-        //获取我们应用的最大可用内存
-        int maxMemory = (int) Runtime.getRuntime().maxMemory();
-        int cacheMemory = maxMemory / 8 ;
-
-        mlruCache = new LruCache<String,Bitmap>(cacheMemory){
-            @Override
-            protected int sizeOf(String key, Bitmap value) {
-                return value.getRowBytes() * value.getHeight();
-            }
-        } ;
-
         //创建线程池
         mexecutors  = Executors.newFixedThreadPool( mThreadCount ) ;
 
-        if ( diskCacheFactory == null ){
-            diskCacheFactory = new ExternalCacheDiskCacheFactory( context ) ;
+        if ( mdiskCacheFactory == null ){
+            mdiskCacheFactory = new ExternalCacheDiskCacheFactory( context ) ;
+        }
+
+        if ( mkey == null ){
+            mkey = new MD5Key() ;
+        }
+
+        if ( mmemoryCache == null ){
+            mmemoryCache = new MemoryCacheFactory( mkey ) ;
         }
     }
 
@@ -74,7 +72,7 @@ public class ImageLoad {
         imageView.setTag( urlString );
 
         //首先从内存中获取图片
-        Bitmap bitmap = getBitmapFromLruCache( urlString ) ;
+        Bitmap bitmap = mmemoryCache.getBitmapFromCache( urlString ) ;
         if ( bitmap != null  ){
             ImageHolder imageHolder = new ImageHolder() ;
             imageHolder.imageView = imageView ;
@@ -89,7 +87,7 @@ public class ImageLoad {
         }
     }
 
-    public void setBitmapToImage( ImageHolder imageHolder ){
+    private void setBitmapToImage( ImageHolder imageHolder ){
         if ( imageHolder.imageView.getTag().toString().equals( imageHolder.urlString )){
             imageHolder.imageView.setImageBitmap( imageHolder.bitmap );
         }
@@ -110,13 +108,14 @@ public class ImageLoad {
 
             @Override
             public Object doInBackground(Object o) {
-                return  DiskLruCacheManager.getCacheBitmap( diskCacheFactory ,  urlString ) ;
+                return  DiskLruCacheManager.getCacheBitmap( mdiskCacheFactory ,  urlString ) ;
             }
 
             @Override
             public void result(Object o) {
                 Bitmap bitmap = (Bitmap) o;
-                setBitmapToLruCache( urlString , bitmap );
+
+                mmemoryCache.setBitmapToCache( urlString , bitmap  );
 
                 if ( bitmap != null ){
                     ImageHolder imageHolder = new ImageHolder() ;
@@ -161,7 +160,7 @@ public class ImageLoad {
             public void result(Bitmap bitmap) {
                 if ( bitmap != null ){
                     //把缓存写入内存
-                    setBitmapToLruCache( urlString , bitmap );
+                    mmemoryCache.setBitmapToCache( urlString , bitmap );
 
                     ImageHolder imageHolder = new ImageHolder() ;
                     imageHolder.imageView = imageView ;
@@ -176,28 +175,6 @@ public class ImageLoad {
         }).executeOnExecutor( mexecutors  , urlString ) ;
 
     }
-
-
-    private void setBitmapToLruCache(String url , Bitmap bitmap ){
-        if ( !TextUtils.isEmpty( url ) && bitmap != null ){
-            String urlMD5 = MD5.stringToMD5( url ) ;
-            if ( mlruCache.get( urlMD5 ) == null ){
-                mlruCache.put( urlMD5 , bitmap ) ;
-            }
-            Log.d( "image" , "LruCache 存入成功 成功" ) ;
-        }else {
-            Log.d( "image" , "LruCache 存入失败 失败" ) ;
-        }
-    }
-
-    private Bitmap getBitmapFromLruCache(String url){
-        if (TextUtils.isEmpty( url )){
-            Log.d( "image" , "LruCache  getBitmapFromLruCache url 为空" ) ;
-            return null ;
-        }
-        return mlruCache.get( MD5.stringToMD5( url ) ) ;
-    }
-
 
     //从网络下载bitmap
     private Bitmap downLoadBitmapFromNet( String urlString ){
@@ -249,7 +226,7 @@ public class ImageLoad {
 
             @Override
             public Object doInBackground(Object o) {
-                DiskLruCacheManager.setCacheBitmap( diskCacheFactory , urlString );
+                DiskLruCacheManager.setCacheBitmap( mdiskCacheFactory , urlString );
                 return null;
             }
 
@@ -264,16 +241,32 @@ public class ImageLoad {
      * get diskCache size
      * @return
      */
-   public long getCacheSize(){
-        return diskCacheFactory.getTotalCacheSize() ;
+   public long getDiskCacheSize(){
+        return mdiskCacheFactory.getTotalCacheSize() ;
     }
 
     /**
      * clear diskCache
-     * must be On Backgr
+     * must be On BackgroundThread
      */
    public void clearDiskCache(){
-        diskCacheFactory.clearCache();
+       mdiskCacheFactory.clearCache();
+    }
+
+    /**
+     * get memory cache zise
+     * @return
+     */
+    public int getMemoryCacheSize(){
+        return mmemoryCache.getMemoryCacheSize() ;
+    }
+
+    /**
+     * clear memory cache
+     * call this method on Android Main Thread
+     */
+    public void clearMemoryCache(){
+        mmemoryCache.clearMemoryCache();
     }
 
 }
