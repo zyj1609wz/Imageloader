@@ -26,7 +26,7 @@ public class ImageLoad {
 
     private static volatile ImageLoad instance ;
     private ExecutorService mexecutors = null ;
-    private int mThreadCount = 10 ;
+    private int mThreadCount = 20 ;
     private DiskCacheFactory mdiskCacheFactory ;
     private MemoryCache mmemoryCache ;
     private Key mkey ;
