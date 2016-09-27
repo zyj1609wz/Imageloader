@@ -1,6 +1,9 @@
-# Imageloader
+# Imageloader  
+ 
 一个封装良好的图片加载框架，使用非常简单
-![](/gif/GIF.gif) 
+
+## 效果图
+![](gif/GIF.gif) 
 
 ## `如何集成`
 Android Studio集成
@@ -84,7 +87,7 @@ ImageLoad.get( Context context ).clearMemoryCache();
 4、重构内存缓存逻辑
 
 
-### `2016/9/23`
+#### `2016/9/23`
  
  1、修改磁盘缓存逻辑
  
@@ -93,7 +96,7 @@ ImageLoad.get( Context context ).clearMemoryCache();
  3、增加清除磁盘缓存接口 
  
 
-### `2016/9/22`
+#### `2016/9/22`
  
    1、完成Imageloader的第一次开发
    
