@@ -60,7 +60,7 @@ ImageLoad.get( Context context ).clearMemoryCache();
 注意这个方法需要在Android UI 线程调用
 
 ## `更新日志`
-`2016/9/26`
+### `2016/9/26`
 
 1、1.2.0发布
 
@@ -71,7 +71,7 @@ ImageLoad.get( Context context ).clearMemoryCache();
 4、重构内存缓存逻辑
 
 
- `2016/9/23`
+### `2016/9/23`
  
  1、修改磁盘缓存逻辑
  
@@ -80,7 +80,7 @@ ImageLoad.get( Context context ).clearMemoryCache();
  3、增加清除磁盘缓存接口 
  
 
- `2016/9/22`
+### `2016/9/22`
  
    1、完成Imageloader的第一次开发
    
