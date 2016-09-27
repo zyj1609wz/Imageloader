@@ -1,6 +1,6 @@
 # Imageloader
 一个封装良好的图片加载框架，使用非常简单
-![](/GIF.gif)
+![](/gif/GIF.gif)
 
 ## `如何集成`
 Android Studio集成
