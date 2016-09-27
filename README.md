@@ -60,7 +60,7 @@ ImageLoad.get( Context context ).clearMemoryCache();
 注意这个方法需要在Android UI 线程调用
 
 ## `更新日志`
-`2016/9/27`
+#### `2016/9/27`
 
 1、重构http下载模块
 
@@ -71,7 +71,7 @@ ImageLoad.get( Context context ).clearMemoryCache();
 4、优化内存占用问题
 
 
-`2016/9/26`
+#### `2016/9/26`
 
 1、1.2.0发布
 
