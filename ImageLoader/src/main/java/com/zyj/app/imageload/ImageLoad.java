@@ -2,7 +2,6 @@ package com.zyj.app.imageload;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -14,14 +13,9 @@ import com.zyj.app.imageload.cache.DiskLruCacheManager;
 import com.zyj.app.imageload.cache.ExternalCacheDiskCacheFactory;
 import com.zyj.app.imageload.cache.MemoryCache;
 import com.zyj.app.imageload.cache.MemoryCacheFactory;
+import com.zyj.app.imageload.load.HttpLoader;
 import com.zyj.app.imageload.util.MyTask;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -148,7 +142,7 @@ public class ImageLoad {
 
             @Override
             public Bitmap doInBackground(String netUrl) {
-                Bitmap bitmap = downLoadBitmapFromNet( netUrl );
+                Bitmap bitmap = HttpLoader.load( urlString ) ;
 
                 //把缓存写入磁盘
                 setBitmapToDiskCache( urlString );
@@ -174,42 +168,6 @@ public class ImageLoad {
             }
         }).executeOnExecutor( mexecutors  , urlString ) ;
 
-    }
-
-    //从网络下载bitmap
-    private Bitmap downLoadBitmapFromNet( String urlString ){
-        InputStream inputStream = null ;
-        Bitmap bitmap ;
-        try {
-            URL url = new URL( urlString ) ;
-            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-            inputStream = new BufferedInputStream( httpURLConnection.getInputStream() ) ;
-            inputStream.mark( inputStream.available());
-
-            BitmapFactory.Options options = new BitmapFactory.Options() ;
-            options.inJustDecodeBounds = true ;
-            BitmapFactory.decodeStream( inputStream , null , options ) ;
-            options.inSampleSize = 4 ;
-            options.inJustDecodeBounds = false ;
-            inputStream.reset();
-            bitmap = BitmapFactory.decodeStream( inputStream , null , options ) ;
-
-            httpURLConnection.disconnect();
-            return  bitmap ;
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }catch (IOException e) {
-            e.printStackTrace();
-        }finally {
-            if ( inputStream != null ){
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return  null ;
     }
 
     private void setBitmapToDiskCache( final String urlString ){
@@ -241,7 +199,7 @@ public class ImageLoad {
      * get diskCache size
      * @return
      */
-   public long getDiskCacheSize(){
+    public long getDiskCacheSize(){
         return mdiskCacheFactory.getTotalCacheSize() ;
     }
 
@@ -249,8 +207,8 @@ public class ImageLoad {
      * clear diskCache
      * must be On BackgroundThread
      */
-   public void clearDiskCache(){
-       mdiskCacheFactory.clearCache();
+    public void clearDiskCache(){
+        mdiskCacheFactory.clearCache();
     }
 
     /**

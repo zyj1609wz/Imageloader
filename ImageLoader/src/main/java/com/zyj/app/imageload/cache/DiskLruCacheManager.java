@@ -1,9 +1,9 @@
 package com.zyj.app.imageload.cache;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
 import com.zyj.app.imageload.disklrucache.DiskLruCache;
+import com.zyj.app.imageload.load.HttpLoader;
 import com.zyj.app.imageload.util.MD5;
 
 import java.io.BufferedInputStream;
@@ -46,9 +46,8 @@ public class DiskLruCacheManager {
 
             DiskLruCache.Snapshot snapShot = diskLruCacheS.get(key);
             if (snapShot != null) {
-                inputStream = snapShot.getInputStream(0) ;
-                Bitmap bitmap = BitmapFactory.decodeStream( inputStream );
-                return bitmap ;
+                inputStream = snapShot.getInputStream( 0 ) ;
+                return HttpLoader.load( inputStream ) ;
             }
         } catch (IOException e) {
             e.printStackTrace();
