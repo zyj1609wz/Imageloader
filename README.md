@@ -17,8 +17,7 @@ compile 'com.zyj.app:imageloader:1.4.0'
 ### 1、如何加载图片
 ```
 //加载一个图片
-ImageLoad.get( Context context).load(  String url , ImageView imageView );   //加载一个图片
- 
+ImageLoad.get( Context context).load(  String url , ImageView imageView );
  
 //加载一个图片，在加载之前设置一个默认图片
 ImageLoad.get( mcontext ).load( imageUrl , holder.imageView , R.drawable.default_image );
