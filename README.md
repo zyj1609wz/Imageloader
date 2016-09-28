@@ -8,7 +8,7 @@
 ## `如何集成`
 Android Studio集成
 ```
-compile 'com.zyj.app:imageloader:1.3.0'
+compile 'com.zyj.app:imageloader:1.4.0'
 
 ```
 获取最新版本号 [Jcenter](http://jcenter.bintray.com/com/zyj/app/imageloader/)
