@@ -16,7 +16,12 @@ compile 'com.zyj.app:imageloader:1.3.0'
 
 ### 1、如何加载图片
 ```
- ImageLoad.get( Context context).load(  String url , ImageView imageView );
+//加载一个图片
+ImageLoad.get( Context context).load(  String url , ImageView imageView );   //加载一个图片
+ 
+ 
+//加载一个图片，在加载之前设置一个默认图片
+ImageLoad.get( mcontext ).load( imageUrl , holder.imageView , R.drawable.default_image );
  
 ```
 
@@ -64,6 +69,14 @@ ImageLoad.get( Context context ).clearMemoryCache();
 注意这个方法需要在Android UI 线程调用
 
 ## `更新日志`
+#### `2016/9/28`
+1、1.4.0发布
+
+2、修改图片压缩方案，有效解决内存溢出的问题
+
+3、增加预加载图片的方法。
+
+
 #### `2016/9/27`
 1、1.3.0发布
 

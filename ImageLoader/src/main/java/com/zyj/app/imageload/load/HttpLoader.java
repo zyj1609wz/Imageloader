@@ -3,8 +3,10 @@ package com.zyj.app.imageload.load;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.zyj.app.imageload.bean.ImageSize;
 import com.zyj.app.imageload.load.data.HttpUrlFetcher;
 import com.zyj.app.imageload.load.data.ZUrl;
+import com.zyj.app.imageload.util.ImageUtil;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -22,11 +24,11 @@ public class HttpLoader {
 
     }
 
-    public static Bitmap load( String url ){
+    public static Bitmap load( String url , ImageSize imageSize  ){
         HttpUrlFetcher httpUrlFetcher = null ;
         try {
             httpUrlFetcher = new HttpUrlFetcher( new ZUrl( url )) ;
-            return loadBitmap( httpUrlFetcher.loadData() ) ;
+            return loadBitmap( httpUrlFetcher.loadData() , imageSize ) ;
         } catch (Exception e) {
             e.printStackTrace();
         }finally {
@@ -37,11 +39,11 @@ public class HttpLoader {
         return null ;
     }
 
-    public static Bitmap load( InputStream inputStream  ){
-        return loadBitmap( inputStream ) ;
+    public static Bitmap load( InputStream inputStream  , ImageSize imageSize ){
+        return loadBitmap( inputStream , imageSize ) ;
     }
 
-    private static Bitmap loadBitmap(InputStream inputStream ){
+    private static Bitmap loadBitmap(InputStream inputStream , ImageSize imageSize ){
         BufferedInputStream bufferedInputStream = new BufferedInputStream( inputStream ) ;
         try {
             if ( bufferedInputStream.available() <= 1){
@@ -53,7 +55,9 @@ public class HttpLoader {
             BitmapFactory.Options options = new BitmapFactory.Options() ;
             options.inJustDecodeBounds = true ;
             BitmapFactory.decodeStream( bufferedInputStream , null , options ) ;
-            options.inSampleSize = 4 ;
+
+            options.inSampleSize = ImageUtil.calculateInSampleSize( options , imageSize.width , imageSize.height  );
+
             options.inPreferredConfig = Bitmap.Config.RGB_565 ;
             options.inJustDecodeBounds = false ;
 

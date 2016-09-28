@@ -14,6 +14,7 @@ import com.zyj.app.imageload.cache.ExternalCacheDiskCacheFactory;
 import com.zyj.app.imageload.cache.MemoryCache;
 import com.zyj.app.imageload.cache.MemoryCacheFactory;
 import com.zyj.app.imageload.load.HttpLoader;
+import com.zyj.app.imageload.util.ImageUtil;
 import com.zyj.app.imageload.util.MyTask;
 
 import java.util.concurrent.ExecutorService;
@@ -60,10 +61,18 @@ public class ImageLoad {
 
 
     public void load( String urlString , ImageView imageView ){
+        load( urlString , imageView , 0 );
+    }
+
+    public void load( String urlString , ImageView imageView , int placeHolder){
         if ( urlString == null ) return;
         if ( imageView == null ) return;
         Log.d("image" , "url--  " + urlString ) ;
         imageView.setTag( urlString );
+
+        if ( placeHolder != 0 ){
+           imageView.setImageResource( placeHolder );
+        }
 
         //首先从内存中获取图片
         Bitmap bitmap = mmemoryCache.getBitmapFromCache( urlString ) ;
@@ -102,7 +111,8 @@ public class ImageLoad {
 
             @Override
             public Object doInBackground(Object o) {
-                return  DiskLruCacheManager.getCacheBitmap( mdiskCacheFactory ,  urlString ) ;
+
+                return  DiskLruCacheManager.getCacheBitmap( mdiskCacheFactory ,  urlString , ImageUtil.getImageViewSize( imageView )  ) ;
             }
 
             @Override
@@ -142,7 +152,7 @@ public class ImageLoad {
 
             @Override
             public Bitmap doInBackground(String netUrl) {
-                Bitmap bitmap = HttpLoader.load( urlString ) ;
+                Bitmap bitmap = HttpLoader.load( urlString , ImageUtil.getImageViewSize( imageView )) ;
 
                 //把缓存写入磁盘
                 setBitmapToDiskCache( urlString );

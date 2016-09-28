@@ -2,6 +2,7 @@ package com.zyj.app.imageload.cache;
 
 import android.graphics.Bitmap;
 
+import com.zyj.app.imageload.bean.ImageSize;
 import com.zyj.app.imageload.disklrucache.DiskLruCache;
 import com.zyj.app.imageload.load.HttpLoader;
 import com.zyj.app.imageload.util.MD5;
@@ -37,7 +38,7 @@ public class DiskLruCacheManager {
         }
     }
 
-    public static Bitmap getCacheBitmap(  DiskCache diskCache  , String urlString ){
+    public static Bitmap getCacheBitmap(DiskCache diskCache  , String urlString , ImageSize imageSize ){
         InputStream inputStream = null ;
         try {
             String key = MD5.stringToMD5( urlString ) ;
@@ -47,7 +48,7 @@ public class DiskLruCacheManager {
             DiskLruCache.Snapshot snapShot = diskLruCacheS.get(key);
             if (snapShot != null) {
                 inputStream = snapShot.getInputStream( 0 ) ;
-                return HttpLoader.load( inputStream ) ;
+                return HttpLoader.load( inputStream , imageSize  ) ;
             }
         } catch (IOException e) {
             e.printStackTrace();

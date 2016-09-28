@@ -6,7 +6,7 @@ package com.zyj.app.imageload.bean;
 
 public class ImageSize {
 
-    int width;
-    int height;
+    public int width;
+    public int height;
 
 }
