@@ -37,5 +37,7 @@ public class MainActivity extends AppCompatActivity {
         mimageAdapter = new ImageAdapter( MainActivity.this , Contans.imageUrls ) ;
         mrecyclerView.setAdapter( mimageAdapter );
 
+        //  Glide.with( this).load( "").skipMemoryCache().into( imageView).;
+
     }
 }
