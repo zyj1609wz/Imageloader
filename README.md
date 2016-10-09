@@ -20,7 +20,7 @@ compile 'com.zyj.app:imageloader:1.5.0'
 ImageLoad.get( Context context).load(  String url , ImageView imageView );
  
 //加载一个图片，在加载之前设置一个默认图片
-ImageLoad.get( Context context ).load( String url , ImageView imageView , Drawable drawable );
+ImageLoad.get( Context context ).load( String url , ImageView imageView , int drawable );
  
 ```
 
