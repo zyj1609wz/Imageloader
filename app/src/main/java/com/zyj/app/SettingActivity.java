@@ -60,20 +60,22 @@ public class SettingActivity extends AppCompatActivity {
 
     }
 
-    String sizeToChange( long size ){
-        double G = size / 1024 / 1204 /1024 ;
+    private String sizeToChange( long size ){
+        java.text.DecimalFormat df   =new   java.text.DecimalFormat("#.00");  //字符格式化，为保留小数做准备
+
+        double G = size * 1.0 / 1024 / 1204 /1024 ;
         if ( G >= 1 ){
-            return G + "GB";
+            return df.format( G ) + "GB";
         }
 
-        double M = size / 1024 / 1204  ;
+        double M = size * 1.0 / 1024 / 1204  ;
         if ( M >= 1 ){
-            return M + "MB";
+            return df.format( M ) + "MB";
         }
 
-        double K = size  / 1024   ;
+        double K = size  * 1.0 / 1024   ;
         if ( K >= 1 ){
-            return K + "KB";
+            return df.format( K ) + "KB";
         }
 
         return size + "Byte" ;

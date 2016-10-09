@@ -33,24 +33,27 @@ long memorycacheSize = ImageLoad.get( Context context ).getMemoryCacheSize() ;  
 
 返回值是缓存大小字节数，提供一个方法进行大小转化
 ```
-    String sizeToChange( long size ){
-        double G = size / 1024 / 1204 /1024 ;
+    private String sizeToChange( long size ){
+        java.text.DecimalFormat df   =new   java.text.DecimalFormat("#.00");  //字符格式化，为保留小数做准备
+
+        double G = size * 1.0 / 1024 / 1204 /1024 ;
         if ( G >= 1 ){
-            return G + "GB";
+            return df.format( G ) + "GB";
         }
 
-        double M = size / 1024 / 1204  ;
+        double M = size * 1.0 / 1024 / 1204  ;
         if ( M >= 1 ){
-            return M + "MB";
+            return df.format( M ) + "MB";
         }
 
-        double K = size  / 1024   ;
+        double K = size  * 1.0 / 1024   ;
         if ( K >= 1 ){
-            return K + "KB";
+            return df.format( K ) + "KB";
         }
 
         return size + "Byte" ;
     }
+
 ```
 
 ### 3、如何清除磁盘缓存？
@@ -68,6 +71,12 @@ ImageLoad.get( Context context ).clearMemoryCache();
 注意这个方法需要在Android UI 线程调用
 
 ## `更新日志`
+#### `2016/10/9`
+1、修改缓存大小计算方法，缓存保留两位小数
+
+2、重构一些代码
+
+
 #### `2016/9/28`
 1、1.4.0发布
 
