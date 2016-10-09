@@ -13,7 +13,6 @@ import com.zyj.app.imageload.cache.DiskLruCacheManager;
 import com.zyj.app.imageload.cache.ExternalCacheDiskCacheFactory;
 import com.zyj.app.imageload.cache.MemoryCache;
 import com.zyj.app.imageload.cache.MemoryCacheFactory;
-import com.zyj.app.imageload.load.BitmapCallback;
 import com.zyj.app.imageload.load.HttpLoader;
 import com.zyj.app.imageload.util.ImageUtil;
 import com.zyj.app.imageload.util.MyTask;
@@ -64,15 +63,7 @@ public class ImageLoad {
         load( urlString , imageView , 0 );
     }
 
-    public void load( String urlString , ImageView imageView , int placeHolder){
-        this.load( urlString , imageView , placeHolder , null );
-    }
-
-    public void load(String urlString , ImageView imageView  , BitmapCallback bitmapCallback ){
-        this.load( urlString , imageView , 0 , bitmapCallback );
-    }
-
-    public void load(String urlString , ImageView imageView , int placeHolder , BitmapCallback bitmapCallback ){
+    public void load(String urlString , ImageView imageView , int placeHolder ){
         if ( urlString == null ) return;
         if ( imageView == null ) return;
         Log.d("image" , "url--  " + urlString ) ;
