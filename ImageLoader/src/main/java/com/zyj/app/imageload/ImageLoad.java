@@ -110,7 +110,6 @@ public class ImageLoad {
 
             @Override
             public Object doInBackground(Object o) {
-
                 return  DiskLruCacheManager.getCacheBitmap( mdiskCacheFactory ,  urlString , ImageUtil.getImageViewSize( imageView )  ) ;
             }
 
