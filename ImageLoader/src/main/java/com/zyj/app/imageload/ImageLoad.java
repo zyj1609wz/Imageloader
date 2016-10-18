@@ -2,6 +2,7 @@ package com.zyj.app.imageload;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -31,6 +32,7 @@ public class ImageLoad {
     private DiskCacheFactory mdiskCacheFactory ;
     private MemoryCache mmemoryCache ;
     private Key mkey ;
+
     private ImageLoad(Context context ){
         //创建线程池
         mexecutors  = Executors.newFixedThreadPool( mThreadCount ) ;
@@ -152,8 +154,13 @@ public class ImageLoad {
             public Bitmap doInBackground(String netUrl) {
                 Bitmap bitmap = HttpLoader.load( urlString , ImageUtil.getImageViewSize( imageView )) ;
 
-                //把缓存写入磁盘
-                setBitmapToDiskCache( urlString );
+                if ( bitmap != null ){
+                    //把缓存写入磁盘
+                    setBitmapToDiskCache( urlString , bitmap  );
+
+                    //把缓存写入内存
+                    mmemoryCache.setBitmapToCache( urlString , bitmap );
+                }
 
                 return bitmap ;
             }
@@ -161,9 +168,6 @@ public class ImageLoad {
             @Override
             public void result(Bitmap bitmap) {
                 if ( bitmap != null ){
-                    //把缓存写入内存
-                    mmemoryCache.setBitmapToCache( urlString , bitmap );
-
                     ImageHolder imageHolder = new ImageHolder() ;
                     imageHolder.imageView = imageView ;
                     imageHolder.bitmap = bitmap ;
@@ -178,8 +182,8 @@ public class ImageLoad {
 
     }
 
-    private void setBitmapToDiskCache( final String urlString ){
-        new MyTask<>().setTaskListener(new MyTask.TaskListener() {
+    private void setBitmapToDiskCache(final String urlString , final Bitmap bitmap  ){
+        new MyTask().setTaskListener(new MyTask.TaskListener() {
             @Override
             public void start() {
 
@@ -192,15 +196,15 @@ public class ImageLoad {
 
             @Override
             public Object doInBackground(Object o) {
-                DiskLruCacheManager.setCacheBitmap( mdiskCacheFactory , urlString );
-                return null;
+                DiskLruCacheManager.setCacheBitmap( mdiskCacheFactory , urlString , bitmap );
+                return null ;
             }
 
             @Override
             public void result(Object o) {
 
             }
-        }).executeOnExecutor( mexecutors  , "") ;
+        }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR , "" ) ;
     }
 
     /**

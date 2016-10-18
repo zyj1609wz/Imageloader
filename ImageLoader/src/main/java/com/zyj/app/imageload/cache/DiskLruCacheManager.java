@@ -9,6 +9,8 @@ import com.zyj.app.imageload.util.MD5;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -38,6 +40,29 @@ public class DiskLruCacheManager {
         }
     }
 
+    public static void setCacheBitmap( DiskCache diskCache , String urlString , Bitmap bitmap ){
+        try {
+            String key = MD5.stringToMD5( urlString ) ;
+            DiskLruCache diskLruCacheS = diskCache.getDiskLruCache() ;
+            if ( diskLruCacheS == null ) return;
+            DiskLruCache.Editor editor = diskLruCacheS.edit(key);
+            if ( editor == null ) return;
+            if ( download( getInputStreamFromBitmap( bitmap )  , editor.newOutputStream( 0 ))){
+                editor.commit();
+            }else {
+                editor.abort();
+            }
+        }catch ( Exception e){
+        }
+    }
+
+    public static InputStream getInputStreamFromBitmap( Bitmap bitmap ){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100 , baos );  //100 是压缩率，表示压缩0%; 如果不压缩是100，表示压缩率为0
+        InputStream inputStream = new ByteArrayInputStream(baos.toByteArray());
+        return inputStream ;
+    }
+
     public static Bitmap getCacheBitmap(DiskCache diskCache  , String urlString , ImageSize imageSize ){
         InputStream inputStream = null ;
         try {
@@ -64,7 +89,6 @@ public class DiskLruCacheManager {
         return null ;
     }
 
-
     private static boolean downloadUrlToStream(String urlString, OutputStream outputStream) {
         HttpURLConnection urlConnection = null;
         BufferedOutputStream out = null;
@@ -72,7 +96,36 @@ public class DiskLruCacheManager {
         try {
             final URL url = new URL(urlString);
             urlConnection = (HttpURLConnection) url.openConnection();
-            in = new BufferedInputStream(urlConnection.getInputStream(), 8 * 1024);
+
+            if ( download(urlConnection.getInputStream() , outputStream )){
+                return true ;
+            }
+            return false ;
+        } catch (final IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
+            try {
+                if (out != null) {
+                    out.close();
+                }
+                if (in != null  ) {
+                    in.close();
+                }
+            } catch (final IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    private static boolean download(InputStream inputStream , OutputStream outputStream) {
+        BufferedOutputStream out = null;
+        BufferedInputStream in = null;
+        try {
+            in = new BufferedInputStream( inputStream , 8 * 1024);
             out = new BufferedOutputStream(outputStream, 8 * 1024);
             int b;
             while ((b = in.read()) != -1) {
@@ -82,9 +135,6 @@ public class DiskLruCacheManager {
         } catch (final IOException e) {
             e.printStackTrace();
         } finally {
-            if (urlConnection != null) {
-                urlConnection.disconnect();
-            }
             try {
                 if (out != null) {
                     out.close();

@@ -11,7 +11,7 @@ public class LogUtil {
     /**
      * true:打开log  false:关闭所有的日志
      */
-    public static boolean OPEN_LOG = true  ;
+    public static boolean OPEN_LOG = false   ;
 
     private static String tag = "imageLoad";
     private String mClassName;

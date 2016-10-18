@@ -106,8 +106,6 @@ public class HttpUrlFetcher implements DataFetcher<InputStream> {
         return stream;
     }
 
-
-
     @Override
     public void cleanup() {
         if (stream != null) {

@@ -1,24 +1,15 @@
 package com.zyj.app;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.zyj.app.imageload.ImageLoad;
-import com.zyj.app.imageload.util.LogUtil;
 import com.zyj.app.util.Contans;
-
-import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,27 +36,5 @@ public class MainActivity extends AppCompatActivity {
         mrecyclerView.setLayoutManager(new GridLayoutManager( MainActivity.this , 2)) ;   //gridView网格布局
         mimageAdapter = new ImageAdapter( MainActivity.this , Contans.imageUrls ) ;
         mrecyclerView.setAdapter( mimageAdapter );
-
-         //Glide.with( this).load( "").skipMemoryCache().into( imageView).;
-
-        LogUtil.d( "uuuuu  " + getDeviceUUID( MainActivity.this ));
-
     }
-
-    public static String getDeviceUUID(Context context){
-        //android6.0权限判断
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            return "";
-        }
-        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        final String tmDevice, tmSerial, androidId;
-        tmDevice = "" + tm.getDeviceId();
-        tmSerial = "" + tm.getSimSerialNumber();
-        androidId = "" + Settings.Secure.getString(context.getContentResolver(),android.provider.Settings.Secure.ANDROID_ID);
-        UUID deviceUuid = new UUID(androidId.hashCode(), ((long)tmDevice.hashCode() << 32) | tmSerial.hashCode());
-        String uniqueId = deviceUuid.toString();
-        LogUtil.w(uniqueId);
-        return uniqueId;
-    }
-
 }
