@@ -8,7 +8,7 @@
 ## `如何集成`
 Android Studio集成
 ```
-compile 'com.zyj.app:imageloader:1.6.0'
+compile 'com.zyj.app:imageloader:1.7.0'
 
 ```
 获取最新版本号 [Jcenter](http://jcenter.bintray.com/com/zyj/app/imageloader/)
@@ -70,7 +70,20 @@ ImageLoad.get( Context context ).clearMemoryCache();
 ```
 注意这个方法需要在Android UI 线程调用
 
+### 4、如何开启/关闭日志?
+```
+ //true：开启日志  false:关闭日志
+ ImageLoad.get( Context context ).setLogEnable( Boolean log );
+```
+
+
 ## `更新日志`
+### `2016/10/19`
+1、1.7.0发布
+
+2、新增Log开启，关闭API
+
+
 #### `2016/10/18`
 1、1.6.0发布
 

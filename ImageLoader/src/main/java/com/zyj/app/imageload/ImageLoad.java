@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.widget.ImageView;
+
 import com.zyj.app.imageload.Key.Key;
 import com.zyj.app.imageload.Key.MD5Key;
 import com.zyj.app.imageload.bean.ImageHolder;
@@ -236,6 +237,14 @@ public class ImageLoad {
      */
     public void clearMemoryCache(){
         mmemoryCache.clearMemoryCache();
+    }
+
+    /**
+     * 设置是否打开log日志
+     * @param log
+     */
+    public void setLogEnable( boolean log){
+        LogUtil.OPEN_LOG = log ;
     }
 
 }

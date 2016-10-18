@@ -10,6 +10,8 @@ import com.zyj.app.imageload.ImageLoad;
 
 public class SettingActivity extends AppCompatActivity {
 
+    static boolean log = false ;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +57,23 @@ public class SettingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ImageLoad.get( SettingActivity.this).clearMemoryCache();
                 Toast.makeText(SettingActivity.this, "清除成功", Toast.LENGTH_SHORT).show();
+            }
+        }) ;
+
+        /**
+         * 清除内存缓存
+         */
+        final TextView log_tv = (TextView) findViewById( R.id.log_enable);
+        log_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ( log ){
+                    log = false ;
+                }else {
+                    log = true ;
+                }
+                log_tv.setText( "是否打卡日志 " + log );
+                ImageLoad.get( SettingActivity.this).setLogEnable( log );
             }
         }) ;
 

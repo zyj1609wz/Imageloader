@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.zyj.app.imageload.ImageLoad;
-import com.zyj.app.util.DensityUtils;
 
 
 /**
@@ -81,9 +80,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
             super(view);
             imageView = (ImageView) view.findViewById(R.id.image);
             params = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
-            params.width = DensityUtils.getScreenWidth( mcontext ) /2  ;
-            params.height = params.width ;
-            imageView.setLayoutParams( params );
+         //   params.width = DensityUtils.getScreenWidth( mcontext )   ;
+          //  params.height = ViewGroup.LayoutParams.WRAP_CONTENT ;
+         //   imageView.setLayoutParams( params );
         }
     }
 

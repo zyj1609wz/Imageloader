@@ -46,5 +46,14 @@
         android:layout_marginTop="10dp"
         android:elevation="7dp" />
 
+    <Button
+        android:id="@+id/log_enable"
+        android:layout_below="@+id/button2"
+        android:text="是否打卡日志"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:elevation="7dp" />
+
 
 </RelativeLayout>

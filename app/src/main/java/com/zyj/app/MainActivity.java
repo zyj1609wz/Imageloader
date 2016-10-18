@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         ImageLoad.get( MainActivity.this ).load(  Contans.imageUrls[0], imageView );
 
         mrecyclerView = (RecyclerView)findViewById(R.id.recycleview);
-        mrecyclerView.setLayoutManager(new GridLayoutManager( MainActivity.this , 2)) ;   //gridView网格布局
+        mrecyclerView.setLayoutManager(new GridLayoutManager( MainActivity.this , 2 )) ;   //gridView网格布局
         mimageAdapter = new ImageAdapter( MainActivity.this , Contans.imageUrls ) ;
         mrecyclerView.setAdapter( mimageAdapter );
     }
