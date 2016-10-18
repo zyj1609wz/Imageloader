@@ -71,6 +71,12 @@ ImageLoad.get( Context context ).clearMemoryCache();
 注意这个方法需要在Android UI 线程调用
 
 ## `更新日志`
+#### `2016/10/18`
+1、1.6.0发布
+
+2、修改图片磁盘缓存逻辑
+
+
 #### `2016/10/9`
 1、1.5.0发布
 
