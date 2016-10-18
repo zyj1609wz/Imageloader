@@ -3,9 +3,7 @@ package com.zyj.app.imageload;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.ImageView;
-
 import com.zyj.app.imageload.Key.Key;
 import com.zyj.app.imageload.Key.MD5Key;
 import com.zyj.app.imageload.bean.ImageHolder;
@@ -16,6 +14,7 @@ import com.zyj.app.imageload.cache.MemoryCache;
 import com.zyj.app.imageload.cache.MemoryCacheFactory;
 import com.zyj.app.imageload.load.HttpLoader;
 import com.zyj.app.imageload.util.ImageUtil;
+import com.zyj.app.imageload.util.LogUtil;
 import com.zyj.app.imageload.util.MyTask;
 
 import java.util.concurrent.ExecutorService;
@@ -68,7 +67,7 @@ public class ImageLoad {
     public void load(String urlString , ImageView imageView , int placeHolder ){
         if ( urlString == null ) return;
         if ( imageView == null ) return;
-        Log.d("image" , "url--  " + urlString ) ;
+
         imageView.setTag( urlString );
 
         if ( placeHolder != 0 ){
@@ -83,10 +82,10 @@ public class ImageLoad {
             imageHolder.bitmap = bitmap ;
             imageHolder.urlString = urlString ;
             setBitmapToImage( imageHolder );
-            Log.d( "image" , "从内存中获取的bitmap 不为空" ) ;
+            LogUtil.d( "从内存中获取的bitmap 不为空" );
         }else {
             //从磁盘获取图片
-            Log.d( "image" , "从内存中获取的bitmap 为空" ) ;
+            LogUtil.d( "从内存中获取的bitmap 为空" );
             getBitmapFromDisk( urlString , imageView );
         }
     }
@@ -127,10 +126,10 @@ public class ImageLoad {
                     imageHolder.bitmap = bitmap ;
                     imageHolder.urlString = urlString ;
                     setBitmapToImage( imageHolder );
-                    Log.d( "image" , "从磁盘获取的bitmap 不为空" ) ;
+                    LogUtil.d( "从磁盘获取的bitmap 不为空" ); ;
                 }else {
                     //从网络中获取
-                    Log.d( "image" , "从磁盘获取的bitmap 为空" ) ;
+                    LogUtil.d( "从磁盘获取的bitmap 为空" ); ;
                     getBitmapFromNet(  urlString , imageView );
                 }
 
@@ -173,9 +172,9 @@ public class ImageLoad {
                     imageHolder.bitmap = bitmap ;
                     imageHolder.urlString = urlString ;
                     setBitmapToImage( imageHolder );
-                    Log.d( "image" , "从网络获取的bitmap 成功" ) ;
+                    LogUtil.d( "从网络获取的bitmap 成功" ) ;
                 }else {
-                    Log.d( "image" , "从网络获取的bitmap 为空" ) ;
+                    LogUtil.d( "从网络获取的bitmap 为空" ); ;
                 }
             }
         }).executeOnExecutor( mexecutors  , urlString ) ;
