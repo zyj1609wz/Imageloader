@@ -58,19 +58,20 @@ long memorycacheSize = ImageLoad.get( Context context ).getMemoryCacheSize() ;  
 
 ### 3、如何清除磁盘缓存？
 
-#### 3.1 清除磁盘缓存
+####    3.1 清除磁盘缓存
 ```
 ImageLoad.get( Context context ).clearDiskCache();
 ```
 注意这个方法是耗时操作，需要在异步中操作。
 
-#### 3.2 清除内存缓存
+####    3.2 清除内存缓存
+
 ```
 ImageLoad.get( Context context ).clearMemoryCache();
 ```
 注意这个方法需要在Android UI 线程调用
 
-#### 4、如何开启/关闭日志?
+### 4、如何开启/关闭日志?
 ```
  //true：开启日志  false:关闭日志
  ImageLoad.get( Context context ).setLogEnable( Boolean log );
@@ -78,7 +79,7 @@ ImageLoad.get( Context context ).clearMemoryCache();
 
 
 ## `更新日志`
-### `2016/10/19`
+#### `2016/10/19`
 1、1.7.0发布
 
 2、新增Log开启，关闭API
