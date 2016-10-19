@@ -70,7 +70,7 @@ ImageLoad.get( Context context ).clearMemoryCache();
 ```
 注意这个方法需要在Android UI 线程调用
 
-### 4、如何开启/关闭日志?
+#### 4、如何开启/关闭日志?
 ```
  //true：开启日志  false:关闭日志
  ImageLoad.get( Context context ).setLogEnable( Boolean log );
