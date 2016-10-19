@@ -1,20 +1,19 @@
 # Imageloader  
  
-一个封装良好的图片加载框架，使用非常简单
-- [x] 支持三级缓存  内存缓存+磁盘缓存+网络缓存
-- [x] 有效解决OOM的问题
+##一个封装良好的图片加载框架，使用非常简单
+- [X] 支持三级缓存  内存缓存+磁盘缓存+网络缓存
+- [X] 优良的图片压缩方案，有效解决OOM的问题
 - [X] 支持获取内存/磁盘缓存大小
 - [X] 支持清除内存/磁盘缓存的方法
 
-## 导航目录(点击可跳转到对应节点处)
-- [效果图](#效果图)  
-- [如何集成](#如何集成) 
-- [使用方法](#使用方法) 
-- [更新日志](#更新日志) 
-
-
 ## 效果图
 ![](gif/GIF.gif) 
+
+## 导航目录(点击可跳转到对应节点处)
+- [如何集成](#如何集成) 
+- [使用方法](#使用方法) 
+- [参考资料](#参考资料)
+- [更新日志](#更新日志) 
 
 
 ## `如何集成`
@@ -88,6 +87,13 @@ ImageLoad.get( Context context ).clearMemoryCache();
  //true：开启日志  false:关闭日志
  ImageLoad.get( Context context ).setLogEnable( Boolean log );
 ```
+
+## `参考资料`
+* [Android 急速发布项目到 JitPack](http://www.cnblogs.com/zhaoyanjun/p/5942616.html)
+* [Android 缓存](http://www.cnblogs.com/zhaoyanjun/p/5818943.html)
+* [DiskLruCache](https://github.com/JakeWharton/DiskLruCache)
+* [慕课网 Android必学-异步加载](http://www.imooc.com/learn/406)
+* [Glide](https://github.com/bumptech/glide)
 
 
 ## `更新日志`
