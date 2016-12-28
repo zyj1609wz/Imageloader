@@ -1,5 +1,5 @@
 package com.zyj.app.imageload.cache;
-import com.zyj.app.imageload.disklrucache.DiskLruCache;
+import com.zyj.app.imageload.cache.disklrucache.DiskLruCache;
 import com.zyj.app.imageload.util.ThreadUtil;
 
 import java.io.File;

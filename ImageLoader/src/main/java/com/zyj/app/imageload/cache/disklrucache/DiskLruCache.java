@@ -1,4 +1,4 @@
-package com.zyj.app.imageload.disklrucache;
+package com.zyj.app.imageload.cache.disklrucache;
 
 import java.io.BufferedWriter;
 import java.io.Closeable;

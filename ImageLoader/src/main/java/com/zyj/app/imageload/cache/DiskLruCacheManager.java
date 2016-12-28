@@ -3,7 +3,7 @@ package com.zyj.app.imageload.cache;
 import android.graphics.Bitmap;
 
 import com.zyj.app.imageload.bean.ImageSize;
-import com.zyj.app.imageload.disklrucache.DiskLruCache;
+import com.zyj.app.imageload.cache.disklrucache.DiskLruCache;
 import com.zyj.app.imageload.load.HttpLoader;
 import com.zyj.app.imageload.util.MD5;
 
