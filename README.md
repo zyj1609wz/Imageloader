@@ -47,12 +47,12 @@ long memorycacheSize = ImageLoad.get( Context context ).getMemoryCacheSize() ;  
     private String sizeToChange( long size ){
         java.text.DecimalFormat df   =new   java.text.DecimalFormat("#.00");  //字符格式化，为保留小数做准备
 
-        double G = size * 1.0 / 1024 / 1204 /1024 ;
+        double G = size * 1.0 / 1024 / 1024 /1024 ;
         if ( G >= 1 ){
             return df.format( G ) + "GB";
         }
 
-        double M = size * 1.0 / 1024 / 1204  ;
+        double M = size * 1.0 / 1024 / 1024  ;
         if ( M >= 1 ){
             return df.format( M ) + "MB";
         }
