@@ -96,6 +96,13 @@ ImageLoad.get( Context context ).clearMemoryCache();
 * [Glide](https://github.com/bumptech/glide)
 
 
+---
+
+个人微信号：`zhaoyanjun125 `  ，   欢迎关注
+
+![](http://o7rvuansr.bkt.clouddn.com/weixin200.jpg)
+
+
 ## `更新日志`
 #### `2016/10/19`
 1、1.7.0发布
